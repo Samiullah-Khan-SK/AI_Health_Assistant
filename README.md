@@ -32,10 +32,17 @@ It can:
 project/
 │
 ├── app.py # Main Streamlit app
+
 ├── build_vectorstore.py # Script to create FAISS vector DB from PDFs
+
 ├── requirements.txt # Python dependencies
+
 ├── .env # API keys (Groq, Tavily)
+
 ├── data/
+
 │ └── WOHG.pdf # Example medical PDF
+
 └── vectorstore/
+
 └── faiss_index/ # Generated FAISS index
