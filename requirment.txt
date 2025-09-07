@@ -1,38 +1,17 @@
-# 🌐 Streamlit for frontend
 streamlit==1.34.0
-
-# 🧠 LangChain core and tools
 langchain==0.2.0
 langchain-community==0.2.0
 langchain-core==0.2.0
-
-# 🧩 Groq model support via OpenAI-compatible interface
 openai==1.30.1
-
-# 🔍 Tavily online search tool
 langchain-toolkit-tavily==0.1.5
-
-# 📚 FAISS for vector store (or Chroma, see alternative below)
 faiss-cpu==1.7.4
-
-# 🧾 HuggingFace embeddings (only if used)
 sentence-transformers==2.2.2
 transformers==4.41.2
 torch==2.3.0
-
-# 🧠 HuggingFace Embeddings for LangChain (if used)
 langchainhub==0.1.15
 huggingface_hub==0.22.2
-
-# 📄 PDF handling
 PyMuPDF==1.23.26
-
-# 📂 CSV and general data
 pandas==2.2.2
-
-# 🧾 PDF generation for transcripts
 fpdf==1.7.2
-
-# ⚙️ Others
 tqdm==4.66.4
 regex==2023.12.25
