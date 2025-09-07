@@ -5,7 +5,7 @@ langchain-core==0.2.28
 faiss-cpu==1.8.0.post1
 sentence-transformers==3.0.1
 huggingface-hub==0.23.4
-openai==1.35.14
+openai==0.28.1
 fpdf==1.7.2
 PyPDF2==3.0.1
 tavily-python==0.3.3
