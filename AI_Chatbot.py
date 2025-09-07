@@ -20,20 +20,16 @@ st.markdown("Ask about **symptoms**, **diseases**, **medicines**, or **general h
 # Add WhatsApp-like styling
 st.markdown("""
 <style>
-    /* Modern gradient background */
     .stApp {
         background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
         font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
     
-    /* Elegant sidebar */
     [data-testid=stSidebar] {
         background: white !important;
         box-shadow: 2px 0 15px rgba(0,0,0,0.05);
-        border-right: none !important;
     }
     
-    /* Professional chat bubbles */
     .user-message {
         background: linear-gradient(135deg, #6e8efb 0%, #4a6cf7 100%);
         color: white;
@@ -45,7 +41,6 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
         line-height: 1.5;
         font-size: 15px;
-        border: none;
     }
     
     .bot-message {
@@ -62,15 +57,13 @@ st.markdown("""
         border: 1px solid #f0f0f0;
     }
     
-    /* Message container - ADDED BOTTOM PADDING */
     .message-container {
         display: flex;
         flex-direction: column;
         background: transparent;
-        padding: 0 10px 100px; /* Added bottom padding */
+        padding: 0 10px 100px;
     }
     
-    /* Avatars */
     .avatar {
         width: 36px;
         height: 36px;
@@ -96,47 +89,40 @@ st.markdown("""
         border: 2px solid white;
     }
     
-    /* Timestamp - ADDED Z-INDEX FIX */
     .timestamp {
         font-size: 0.65em;
         color: #a8b0c0;
         margin-top: 3px;
         font-weight: 500;
-        position: relative; /* Ensures z-index works */
-        z-index: 1; /* Keeps timestamps below input */
+        position: relative;
+        z-index: 1;
     }
     
-    /* Chat bubble alignment */
     .chat-bubble {
         display: flex;
         margin: 10px 0;
         transition: all 0.3s ease;
-        position: relative; /* Ensures stacking context */
-        z-index: auto; /* Default stacking */
+        position: relative;
+        z-index: auto;
     }
     
-    .chat-bubble:hover {
-        transform: translateY(-1px);
-    }
-    
-    /* Input area - FIXED OVERLAP ISSUE */
     .stChatFloatingInputContainer {
-        background: rgba(255,255,255,0.95) !important; /* More opaque */
-        backdrop-filter: blur(8px); /* Stronger blur */
+        background: rgba(255,255,255,0.95) !important;
+        backdrop-filter: blur(8px);
         border-top: 1px solid #f0f0f0;
-        position: relative; /* Required for z-index */
-        z-index: 1000; /* Ensures input stays on top */
-        padding: 15px 0; /* Added vertical spacing */
+        position: relative;
+        z-index: 1000;
+        padding: 15px 0;
     }
     
     .stChatInputContainer {
         background: white !important;
         border-radius: 24px !important;
         padding: 10px 16px !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important; /* Stronger shadow */
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
         border: 1px solid #e4e8f0 !important;
-        position: relative; /* Creates stacking context */
-        z-index: 1001; /* Higher than container */
+        position: relative;
+        z-index: 1001;
     }
     
     .stChatInputContainer textarea {
@@ -146,15 +132,6 @@ st.markdown("""
         padding: 10px !important;
     }
     
-    .stChatInputContainer textarea::placeholder {
-        color: #a8b0c0 !important;
-    }
-    
-    .stChatInputContainer textarea:focus {
-        box-shadow: none !important;
-        border-color: #4a6cf7 !important;
-    }
-    
     .stChatInputContainer button {
         background: linear-gradient(135deg, #6e8efb 0%, #4a6cf7 100%) !important;
         color: white !important;
@@ -162,104 +139,36 @@ st.markdown("""
         border-radius: 50% !important;
         width: 40px !important;
         height: 40px !important;
-        box-shadow: 0 4px 10px rgba(74, 108, 247, 0.4) !important;
-        transition: all 0.2s ease !important;
     }
     
-    .stChatInputContainer button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 15px rgba(74, 108, 247, 0.5) !important;
-    }
-    
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: #f5f7fa;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: #4a6cf7;
-        border-radius: 3px;
-    }
-    
-    /* Markdown content styling */
-    .bot-message strong {
-        color: #4a6cf7;
-    }
-    
-    .bot-message a {
-        color: #4a6cf7;
-        text-decoration: none;
-        font-weight: 500;
-    }
-    
-    .bot-message ul, 
-    .bot-message ol {
-        padding-left: 20px;
-        margin: 8px 0;
-    }
-    
-    .bot-message li {
-        margin-bottom: 6px;
-    }
-    
-    /* Animation for new messages */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(5px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .chat-bubble {
-        animation: fadeIn 0.3s ease-out;
-    }
-    
-    /* NEW: Prevent content overflow behind input */
     .stChatMessageContainer {
         padding-bottom: 100px !important;
     }
 </style>
 """, unsafe_allow_html=True)
+
 # --- CONSTANTS ---
 GREETINGS = {"hi", "hello", "hey", "good morning", "good afternoon", "good evening", "howdy", "hola", "greetings"}
 
 HEALTH_KEYWORDS = {
-    # Diseases/Conditions
     "disease", "illness", "condition", "disorder", "syndrome", "infection", "chronic", "acute",
     "cancer", "tumor", "diabetes", "hypertension", "asthma", "arthritis", "glaucoma", "depression", 
     "anxiety", "alzheimer", "parkinson", "stroke", "heart attack", "pneumonia", "bronchitis",
     "osteoporosis", "epilepsy", "migraine", "autism", "adhd", "bipolar", "schizophrenia",
-    
-    # Symptoms
     "symptom", "sign", "indication", "pain", "ache", "fever", "headache", "nausea", "vomit",
     "dizziness", "fatigue", "weakness", "rash", "swelling", "inflammation", "bleeding",
-    
-    # Treatments
     "treatment", "therapy", "medication", "medicine", "drug", "prescription", "surgery", 
     "operation", "rehabilitation", "recovery", "physical therapy", "chemotherapy", "radiation",
     "vaccine", "immunization", "antibiotic", "antiviral", "painkiller", "analgesic",
-    
-    # Body Parts/Systems
     "heart", "lung", "liver", "kidney", "brain", "stomach", "intestine", "muscle", "bone",
     "joint", "nerve", "blood", "immune", "respiratory", "digestive", "nervous", "endocrine",
-    
-    # General Health
     "health", "wellness", "prevention", "diagnosis", "prognosis", "checkup", "screening",
     "test", "scan", "x-ray", "mri", "ct", "ultrasound", "biopsy", "blood test", "urine test",
-    
-    # Medications
     "dosage", "side effect", "interaction", "contraindication", "overdose", "allergy",
     "tablet", "capsule", "injection", "ointment", "cream", "syrup", "drops", "suppository",
-    
-    # Specialties
     "cardiology", "neurology", "oncology", "pediatrics", "psychiatry", "dermatology",
     "endocrinology", "gastroenterology", "hematology", "nephrology", "pulmonology",
-    
-    # Report Related
-    "report", "result", "finding", "diagnosis", "medical report", "lab report", "scan report",
-    "blood report", "urine report", "imaging report", "pathology report"
+    "report", "result", "finding", "diagnosis", "medical report", "lab report", "scan report"
 }
 
 MEDICATION_QUESTIONS = [
@@ -284,64 +193,70 @@ def is_greeting(message):
 def is_health_related(message):
     message_lower = message.lower()
     
+    # Always allow personal health descriptions
+    if re.search(r'\b(i am|i have|my|me|father|mother|child|husband|wife|son|daughter)\b', message_lower):
+        if any(symptom in message_lower for symptom in ['headache', 'fever', 'pain', 'cough', 'sore throat', 'confusion', 'dizziness', 'nausea', 'vomiting', 'rash']):
+            return True
+    
+    # Check for report analysis
     if st.session_state.pdf_text and ("report" in message_lower or "result" in message_lower or "diagnosis" in message_lower):
         return True
         
+    # Check for follow-up questions
     if any(q.lower().format(topic=".*") in message_lower for q in MEDICATION_QUESTIONS + CONDITION_QUESTIONS):
         return True
         
+    # Check for health keywords
     keyword_match = any(keyword in message_lower for keyword in HEALTH_KEYWORDS)
     
+    # Check for question patterns
     pattern_match = bool(re.search(
         r'\b(what is|define|explain|symptoms of|treatment for|causes of|how to treat|signs of|how can i|how long does|what are the|can [a-z]+ be)\b', 
         message_lower
     ))
     
+    # Check for medication patterns
     medication_match = bool(re.search(
         r'\b(side effects|dosage|drug interactions|take with food|how long to work|recommended dose)\b',
         message_lower
     ))
     
-    return keyword_match or pattern_match or medication_match
+    # Check for personal health descriptions
+    personal_health = bool(re.search(
+        r'\b(\d+\s*(year|yr)s?\s*old|age\s*\d+)\b.*\b(with|has|having|experienced)\b',
+        message_lower
+    ))
+    
+    return keyword_match or pattern_match or medication_match or personal_health
 
 def detect_intent(question):
     q = question.lower().strip()
     
-    # Check for simple definition requests first (short questions)
-    if (any(k in q for k in ["what is", "define", "definition"]) 
-        and len(q.split()) <= 6):  # Simple questions like "what is X"
-        return "simple_definition"
-    
-    # Check for report analysis
+    # Check for report analysis first
     if any(term in q for term in ["report", "result", "diagnosis", "lab test", "scan"]):
         return "report_analysis"
-        
-    # Check for personal case (with age)
-    if (re.search(r'\b(i am|i have|my|me)\b', q) 
-        and re.search(r'\d+\s*(year|yr)s? old', q)):
+    
+    # Check for personal case (with age and symptoms)
+    if (re.search(r'\b(i am|i have|my|me|father|mother|child|husband|wife)\b', q) 
+        and (re.search(r'\d+\s*(year|yr)s? old', q) or any(symptom in q for symptom in ['pain', 'fever', 'headache', 'cough', 'sore throat']))):
         return "personal_case"
-        
+    
+    # Check for medication queries
+    if any(k in q for k in ["medication", "drug", "medicine", "pill", "tablet", "dosage", "side effect"]):
+        return "medication"
+    
     # Check for symptom queries
     if any(k in q for k in ["symptom", "sign", "indication", "manifestation"]):
         return "symptoms"
-        
+    
     # Check for treatment queries
     if any(k in q for k in ["treatment", "cure", "remedy", "therapy", "manage", "management"]):
         return "treatment"
-        
-    # Check for medication/drug queries
-    if any(k in q for k in ["medication", "drug", "medicine", "pill", "tablet", "dosage"]):
-        return "medication"
-        
-    # Check for pain/emergency cases
-    if (re.search(r'\b(i|my|me)\b', q) 
-        and any(k in q for k in ["pain", "ache", "hurt", "swelling", "bleeding", "emergency"])):
-        return "personal_case"
-        
+    
     # Check for definition requests
     if any(k in q for k in ["what is", "define", "explain", "meaning of"]):
         return "definition"
-        
+    
     return "general"
 
 def extract_age_symptoms_format(user_question, ai_response):
@@ -361,111 +276,18 @@ def get_trusted_domains(query):
     
     query_lower = query.lower()
     
-    # Add niche sources based on query
     if "cancer" in query_lower:
         core_domains.append("cancer.org")
     if "mental" in query_lower or "depression" in query_lower or "anxiety" in query_lower:
         core_domains.append("nimh.nih.gov")
     if "child" in query_lower or "pediatric" in query_lower:
         core_domains.append("healthychildren.org")
-    if "alternative" in query_lower or "herbal" in query_lower:
-        core_domains.append("nccih.nih.gov")
     
     return core_domains
 
 def generate_follow_ups(question):
     """Generate sensible medical follow-up questions only when appropriate"""
-    # List of medical conditions we can safely generate follow-ups for
-    MEDICAL_CONDITIONS = {
-    # Cardiovascular
-    "hypertension": ["high blood pressure", "hbp", "bp"],
-    "heart attack": ["myocardial infarction", "mi", "cardiac arrest"],
-    "arrhythmia": ["irregular heartbeat", "afib", "atrial fibrillation"],
-    "coronary artery disease": ["cad", "heart disease", "artery blockage"],
-    
-    # Endocrine
-    "diabetes": ["blood sugar", "diabetic", "type 1 diabetes", "type 2 diabetes"],
-    "hypothyroidism": ["underactive thyroid", "low thyroid", "thyroid disorder"],
-    "hyperthyroidism": ["overactive thyroid", "graves disease"],
-    
-    # Respiratory
-    "asthma": ["breathing difficulty", "wheezing", "bronchial"],
-    "copd": ["chronic obstructive pulmonary disease", "emphysema", "chronic bronchitis"],
-    "pneumonia": ["lung infection", "respiratory infection"],
-    
-    # Neurological
-    "migraine": ["headache", "severe headache", "ocular migraine"],
-    "epilepsy": ["seizures", "convulsions"],
-    "parkinson's disease": ["tremors", "shaking palsy"],
-    "alzheimer's disease": ["dementia", "memory loss"],
-    
-    # Gastrointestinal
-    "gerd": ["acid reflux", "heartburn", "gastroesophageal reflux"],
-    "ibs": ["irritable bowel syndrome", "digestive issues", "bowel disorder"],
-    "crohn's disease": ["inflammatory bowel disease", "ibd"],
-    
-    # Musculoskeletal
-    "arthritis": ["joint pain", "rheumatoid arthritis", "osteoarthritis"],
-    "osteoporosis": ["bone loss", "weak bones"],
-    "back pain": ["lumbago", "sciatica", "herniated disc"],
-    
-    # Mental Health
-    "depression": ["major depressive disorder", "mdd", "clinical depression"],
-    "anxiety": ["anxiety disorder", "panic attacks", "generalized anxiety"],
-    "adhd": ["attention deficit disorder", "add", "hyperactivity"],
-    
-    # Infectious Diseases
-    "covid-19": ["coronavirus", "sars-cov-2"],
-    "influenza": ["flu", "seasonal flu"],
-    "urinary tract infection": ["uti", "bladder infection"],
-    
-    # Dermatological
-    "eczema": ["atopic dermatitis", "skin rash"],
-    "psoriasis": ["scaly skin", "plaques"],
-    "acne": ["pimples", "zits", "breakouts"],
-    
-    # Cancer/Tumors
-    "breast cancer": ["mammary carcinoma", "breast tumor"],
-    "lung cancer": ["pulmonary carcinoma", "smoking cancer"],
-    "melanoma": ["skin cancer", "malignant mole"],
-    
-    # Women's Health
-    "endometriosis": ["pelvic pain", "menstrual pain"],
-    "pcos": ["polycystic ovary syndrome", "hormonal imbalance"],
-    "menopause": ["hot flashes", "perimenopause"],
-    
-    # Men's Health
-    "bph": ["benign prostatic hyperplasia", "enlarged prostate"],
-    "erectile dysfunction": ["ed", "impotence"],
-    
-    # Pediatric
-    "adhd": ["attention deficit hyperactivity disorder"],
-    "autism": ["asd", "autism spectrum disorder"],
-    
-    # Eye Conditions
-    "glaucoma": ["eye pressure", "optic nerve damage"],
-    "cataracts": ["cloudy vision", "lens opacity"],
-    
-    # Blood Disorders
-    "anemia": ["low hemoglobin", "iron deficiency"],
-    "leukemia": ["blood cancer", "white blood cell disorder"],
-    
-    # Autoimmune
-    "lupus": ["sle", "systemic lupus erythematosus"],
-    "rheumatoid arthritis": ["joint inflammation", "autoimmune arthritis"],
-    
-    # Chronic Conditions
-    "chronic kidney disease": ["ckd", "renal failure"],
-    "chronic pain": ["persistent pain", "pain syndrome"],
-    
-    # Additions based on your previous needs
-    "medulloblastoma": ["brain tumor", "pediatric brain cancer"],
-    "lower back pain": ["lumbar pain", "sciatica"],
-    "high cholesterol": ["hyperlipidemia", "ldl", "hdl"]
-    }
-    
-    # Clean the question
-    question_lower = question.lower().translate(str.maketrans("", "", string.punctuation))
+    question_lower = question.lower()
     
     # Check for report analysis first
     if "report" in question_lower and st.session_state.pdf_text:
@@ -475,136 +297,140 @@ def generate_follow_ups(question):
             topic = conditions[0].strip()
             topic = re.sub(r'\s{2,}', ' ', topic)
             topic = topic.split(',')[0]
-            topic = topic.split(' and ')[0]
             return [
                 f"What are the symptoms of {topic}?",
                 f"How is {topic} treated?",
                 f"What causes {topic}?"
             ]
     
-    # Check for known medical conditions
-    for condition, keywords in MEDICAL_CONDITIONS.items():
-        if (condition in question_lower or 
-            any(kw in question_lower for kw in keywords)):
+    # Common medical conditions for follow-ups
+    medical_conditions = {
+        "headache": "headache", "fever": "fever", "cough": "cough", 
+        "sore throat": "sore throat", "pain": "pain", "rash": "rash",
+        "diabetes": "diabetes", "hypertension": "high blood pressure",
+        "asthma": "asthma", "arthritis": "arthritis"
+    }
+    
+    for condition, topic in medical_conditions.items():
+        if condition in question_lower:
             return [
-                f"What are the warning signs of {condition}?",
-                f"How is {condition} diagnosed?",
-                f"What are the best treatments for {condition}?",
-                f"Can {condition} be prevented?"
+                f"What are the symptoms of {topic}?",
+                f"How is {topic} treated?",
+                f"What causes {topic}?"
             ]
     
-    # Return empty list if no good follow-ups found
     return []
 
 def generate_prompt(intent, context, question):
-    # Extract and clean the main topic
-    topic = re.sub(r'[^\w\s]', '', question)
-    topic = ' '.join([word for word in topic.split() 
-                     if word.lower() not in ["what", "is", "are", "the", "define", "explain"]])
-    topic = topic.strip()
+    # Clean the question for topic extraction
+    cleaned_question = re.sub(r'\b(i am|i have|my|me|father|mother|child|husband|wife)\b', '', question.lower(), flags=re.IGNORECASE)
     
-    # Base formatting template
-    format_instructions = """
-    Response Format Requirements:
-    ✦ Use emoji bullet points (✦ for main points, ▪ for details)
-    ✦ Bold all medical terms (**term**)
-    ✦ Section headers with ▷ symbol
-    ✦ Maximum 3 statistics if available
-    ✦ Clear visual separation between sections
-    ✦ Sources at bottom with 📚 emoji
-    """
+    # Extract symptoms and medical terms
+    symptoms = re.findall(r'\b(headache|fever|pain|nausea|vomiting|dizziness|fatigue|cough|sore throat|rash|swelling)\b', cleaned_question, re.IGNORECASE)
+    medical_terms = re.findall(r'\b([a-zA-Z]{4,})\b', cleaned_question)
     
-    if intent == "simple_definition":
-        return f"""Provide a 1-2 sentence definition of **{topic}** formatted as:
-        ✦ **Definition:** [concise explanation]
-        ✦ **Significance:** [1 sentence importance]
-        {format_instructions}"""
+    if symptoms:
+        topic = " and ".join(symptoms[:2]) + " symptoms"
+    elif medical_terms:
+        topic = medical_terms[0] if len(medical_terms[0]) > 4 else "this condition"
+    else:
+        topic = "your symptoms"
+
+    if intent == "personal_case":
+        # Extract age and symptoms for personal cases
+        age_match = re.search(r'(\d+)\s*(year|yr)s?\s*old', question.lower())
+        age_info = f"**Age:** {age_match.group(1)} years\n" if age_match else ""
         
-    if intent == "report_analysis":
+        symptom_list = re.findall(r'\b(headache|fever|pain|nausea|vomiting|dizziness|fatigue|cough|sore throat|rash|swelling)\b', question.lower(), re.IGNORECASE)
+        symptoms_str = ", ".join(symptom_list) if symptom_list else "symptoms"
+        
+        return f"""Provide a concise medical assessment based on:
+
+Patient Presentation:
+{age_info}**Symptoms:** {symptoms_str}
+
+Context: {context}
+
+Required Structure:
+👨‍⚕️ **CLINICAL ASSESSMENT**
+• Brief symptom analysis
+• 2-3 most likely causes
+
+⚕️ **RECOMMENDED ACTIONS**
+• Immediate self-care measures
+• When to seek medical help
+• What to tell your doctor
+
+📋 **KEY RECOMMENDATIONS**
+• Most important advice
+
+CRITICAL RULES:
+1. **DO NOT invent medical history** - only use what's stated
+2. **DO NOT include statistics** - focus on practical advice
+3. **Keep response under 200 words**
+4. **Be specific to the described symptoms only**
+5. **Avoid listing unrelated conditions**
+6. **Use simple, clear language**
+7. **Focus on actionable advice**
+8. **Never prescribe specific medications**
+9. **Always recommend professional consultation**
+10. **Keep it concise and relevant**"""
+
+    elif intent == "report_analysis":
         return f"""Analyze this medical report:
-        Report Content: {context}
-        Patient Question: {question}
-        
-        Required Structure:
-        ▷ **Key Findings** (3-5 bullet points)
-        ▷ **Explanation** (simple terms)
-        ▷ **Recommended Actions** (prioritized)
-        ▷ **Urgency Level** (⚠️ symbols if needed)
-        {format_instructions}"""
-    
-    intent_specific = {
-        "definition": f"""
-        ▷ **Definition of {topic}:**
-        ✦ Core concept (2 sentences max)
-        ✦ Key characteristics
-        
-        ▷ **Clinical Significance:**
-        ✦ Why it matters
-        ✦ 1-2 prevalence stats if available""",
-        
-        "symptoms": f"""
-        ▷ **Symptoms of {topic}:**
-        ✦ Most common manifestations
-        ▪ Prevalence percentages if known
-        ✦ Red flags (use ⚠️)
-        
-        ▷ **When to Seek Help:**
-        ✦ Warning signs""",
-        
-        "treatment": f"""
-        ▷ **Treatment Options for {topic}:**
-        ✦ **Medications:**
-        ▪ First-line drugs
-        ▪ Common side effects
-        
-        ✦ **Therapies:**
-        ▪ Evidence-based approaches
-        
-        ✦ **Lifestyle Modifications:**
-        ▪ Most effective changes""",
-        
-        "prevention": f"""
-        ▷ **Preventing {topic}:**
-        ✦ Proactive strategies (emoji bullets)
-        ✦ Risk reduction tips
-        
-        ▷ **Early Detection:**
-        ✦ Screening recommendations""",
-        
-        "medication": f"""
-        ▷ **About {topic}:**
-        ✦ **Dosage:** Standard ranges
-        ✦ **Side Effects:** Most common
-        ✦ **Interactions:** Key warnings
-        ✦ **Precautions:** Special populations""",
-        
-        "general": f"""
-        ▷ **About {topic}:**
-        ✦ Key facts
-        ✦ Important considerations
-        
-        ▷ **Quick Facts:**
-        ▪ Prevalence
-        ▪ Risk factors"""
-    }
-    
-    return f"""Generate a professional medical response about **{topic}** with:
-    Question: {question}
-    Context: {context}
-    
-    {intent_specific.get(intent, 'Provide accurate, formatted information')}
-    {format_instructions}
-    
-    Additional Guidelines:
-    - Use **bold** for first topic mention and medical terms
-    - Keep paragraphs under 3 lines
-    - Use ➡️ for progression arrows when needed
-    - Add ❗ for important warnings"""
+
+Report Content: {context}
+Patient Question: {question}
+
+Required Structure:
+📄 **REPORT ANALYSIS**
+• Key findings summary
+• What the results mean
+
+🎯 **RECOMMENDED NEXT STEPS**
+• Follow-up actions
+• When to consult specialist
+
+💡 **PATIENT GUIDANCE**
+• How to interpret results
+• Questions for healthcare provider
+
+CRITICAL RULES:
+1. **Be accurate and conservative**
+2. **Do not over-interpret results**
+3. **Recommend professional consultation**
+4. **Keep response under 250 words**"""
+
+    else:
+        return f"""Provide a professional medical response:
+
+Question: {question}
+Context: {context}
+
+Required Structure:
+🩺 **INFORMATION**
+• Clear, concise explanation
+• Key facts
+
+💡 **PRACTICAL ADVICE**
+• Actionable recommendations
+• When to seek help
+
+📋 **KEY POINTS**
+• Most important information
+
+CRITICAL RULES:
+1. **Be accurate and evidence-based**
+2. **Keep response under 200 words**
+3. **Use simple language**
+4. **Focus on practical advice**
+5. **Recommend professional consultation when appropriate**
+6. **Do not include statistics unless essential**
+7. **Avoid technical jargon unless explained**"""
 
 def load_faiss_store():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     if not os.path.exists("vectorstore_faiss"):
-        # Create an empty FAISS store if it doesn't exist
         return FAISS.from_texts(["Initial empty document"], embeddings)
     return FAISS.load_local("vectorstore_faiss", embeddings, allow_dangerous_deserialization=True)
 
@@ -612,9 +438,8 @@ def extract_pdf_text(uploaded_file):
     try:
         reader = PyPDF2.PdfReader(uploaded_file)
         text = "\n".join([p.extract_text() or '' for p in reader.pages])
-        # Clean up the text
-        text = re.sub(r'\s+', ' ', text)  # Replace multiple whitespace with single space
-        text = re.sub(r'(?<!\n)\n(?!\n)', ' ', text)  # Replace single newlines with space
+        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r'(?<!\n)\n(?!\n)', ' ', text)
         return text.strip()
     except Exception as e:
         st.error(f"Error reading PDF: {str(e)}")
@@ -658,7 +483,6 @@ with chat_container:
     st.markdown("<div class='message-container'>", unsafe_allow_html=True)
     
     for chat in st.session_state.chat_history:
-        # User message
         st.markdown(f"""
         <div class='chat-bubble'>
             <div class='user-container'>
@@ -672,7 +496,6 @@ with chat_container:
         <div class='clear'></div>
         """, unsafe_allow_html=True)
         
-        # Bot message
         if chat["bot"] != "Thinking...":
             st.markdown(f"""
             <div class='chat-bubble'>
@@ -700,7 +523,6 @@ with st.sidebar:
                 pdf_text = extract_pdf_text(uploaded_pdf)
                 if pdf_text:
                     st.session_state.pdf_text = pdf_text
-                    # Create a new FAISS store with the PDF content
                     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
                     st.session_state.vector_store = FAISS.from_texts([pdf_text], embeddings)
                     st.success("PDF processed successfully!")
@@ -734,7 +556,6 @@ with st.sidebar:
 # --- CHAT PROCESSING ---
 user_query = st.chat_input("Ask a health question...")
 if user_query and not st.session_state.processing:
-    # Add user message to history immediately
     timestamp = datetime.now().strftime("%H:%M:%S")
     st.session_state.chat_history.append({
         "user": user_query,
@@ -758,12 +579,12 @@ if st.session_state.processing and st.session_state.chat_history and st.session_
             
             try:
                 if st.session_state.pdf_text:
-                    pdf_results = vector_store.similarity_search(user_query, k=3)
+                    pdf_results = vector_store.similarity_search(user_query, k=2)
                     pdf_context = "\n\n".join([r.page_content for r in pdf_results])
                 else:
                     pdf_context = ""
                 
-                general_results = vector_store.similarity_search(user_query, k=3)
+                general_results = vector_store.similarity_search(user_query, k=2)
                 general_context = "\n\n".join([r.page_content for r in general_results])
                 
                 if pdf_context:
@@ -771,20 +592,18 @@ if st.session_state.processing and st.session_state.chat_history and st.session_
                 else:
                     context = general_context
                 
-                if intent == "report_analysis":
-                    if not st.session_state.pdf_text:
-                        bot_reply = "Please upload a medical report PDF first."
-                    else:
-                        context = f"MEDICAL REPORT:\n{st.session_state.pdf_text}\n\nCONTEXT:\n{general_context}"
+                # Clean context to prevent hallucinations
+                context = context[:800]
+                context = re.sub(r'\.\s*\d+\.\s*\d+\.\s*\d+', '', context)
                 
-                fallback = not context.strip() or len(context.strip()) < 50
+                fallback = not context.strip() or len(context.strip()) < 30
                 
                 try:
                     groq_chat = ChatOpenAI(
                         openai_api_key=st.secrets.get("GROQ_API_KEY", ""),
                         base_url="https://api.groq.com/openai/v1",
-                        model_name="llama3-70b-8192",
-                        temperature=0.3,
+                        model_name="llama-3.3-70b-versatile",
+                        temperature=0.1,  # Lower temperature for less creativity
                         request_timeout=30
                     )
                     
@@ -795,12 +614,10 @@ if st.session_state.processing and st.session_state.chat_history and st.session_
                             search_results = tavily.run({
                                 "query": user_query,
                                 "include_domains": trusted_domains,
-                                "num_results": 5 if intent in ["report_analysis", "personal_case"] else 3
+                                "num_results": 3
                             })
                             context = "\n\n".join([r["content"] for r in search_results])
-                            st.session_state.vector_store.add_texts([context])
-                        except Exception as e:
-                            st.error(f"Search error: {str(e)}")
+                        except:
                             context = "Current medical knowledge"
                     
                     prompt = generate_prompt(intent, context, user_query)
