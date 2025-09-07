@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain.schema import HumanMessage
+from langchain_core.messages import HumanMessage
 from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_community.chat_models import ChatOpenAI
@@ -653,3 +653,4 @@ if st.session_state.pdf_text:
     with st.expander("📄 Medical Report Summary"):
         st.subheader("Extracted Medical Information")
         st.text(st.session_state.pdf_text[:1500] + ("..." if len(st.session_state.pdf_text) > 1500 else ""))
+
